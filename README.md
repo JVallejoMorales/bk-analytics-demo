@@ -13,14 +13,22 @@ Set-Location 'C:\bk-analytics-demo'
 python -m http.server 41764 --bind 127.0.0.1 --directory docs
 ```
 
-Abre [Pulso Operativo](http://localhost:41764/). Los archivos del sitio están en `docs/` y se sirven directamente con HTML, CSS y JavaScript. Los perfiles General, Comercial y Soporte simulan distintos permisos dentro del navegador.
+Abre [Pulso Operativo](http://localhost:41764/). El sitio se sirve directamente desde `docs/` con HTML, CSS y JavaScript.
+
+## Recorridos de la demo
+
+- **Inicio y Comercial.** Menú por módulos, tarjetas del día y del mes, panel de restaurantes, filtros y detalle de ventas, transacciones y ticket promedio.
+- **Producto y mix.** Resumen semanal con composición por familia, tendencia mensual, explorador de producto y controles de calidad.
+- **Inventario y Costos.** Resumen del corte, existencias bajo mínimo, análisis por restaurante y comparación del costo observado con el ideal.
+- **GLPI.** Resumen con motivos y distribución, detalle de tickets y análisis por restaurante. Los motivos y segmentos abren el detalle correspondiente.
+- **Datos y descargas.** Previsualización y exportación CSV por conjunto de datos. General, Comercial y Soporte simulan la visibilidad de módulos dentro del navegador.
 
 ## Datos del escenario
 
-- **Comercial y productos.** El generador construye 60 días, del 2 de mayo al 30 de junio de 2026, con granularidad de fecha, sede y canal. Las ventas netas en COP se calculan con unidades vendidas y precios ficticios. El ticket promedio divide las ventas netas totales entre las transacciones totales del alcance filtrado.
-- **Inventario.** Las existencias y costos corresponden a un corte fijo del 30 de junio de 2026. El valor por artículo y sede multiplica las existencias por el costo unitario.
-- **Soporte.** El período filtra por fecha de creación. Se puede acotar por sede, estado, prioridad, categoría y búsqueda. El promedio de resolución se calcula sobre las solicitudes resueltas.
-- **Exportación.** El CSV contiene los registros filtrados de la vista activa. El generador produce las mismas cifras en cada carga.
+- **Comercial y productos.** Serie diaria del 6 de julio al 25 de octubre de 2026 por restaurante y canal. Las ventas netas son la suma de unidades por precio ficticio; el ticket promedio usa ventas totales divididas por transacciones totales. El período comparable conserva los días de la semana y se muestra si hay cobertura completa. El AUV del escenario divide las unidades por los días con datos de cada restaurante.
+- **Inventario y costos.** Cortes del 31 de agosto, 30 de septiembre y 25 de octubre de 2026. La consulta usa el último corte dentro del rango. Las existencias se valoran al costo unitario; los costos observado e ideal usan el consumo del mes hasta ese corte.
+- **Soporte.** Los filtros de período se aplican a la fecha de creación. La mediana y el percentil 95 se calculan con los tickets resueltos. La antigüedad de los abiertos se mide al 25 de octubre de 2026.
+- **Exportación.** El CSV incluye las filas filtradas de la vista activa. El escenario es reproducible y se genera en el navegador sin conexiones a servicios de la empresa.
 
 ## Fuente de publicación
 

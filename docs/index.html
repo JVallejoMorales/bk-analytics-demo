@@ -3,83 +3,65 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#192139">
-  <meta name="description" content="Demostración de analítica operativa con datos ficticios para el portafolio de Juan José Vallejo.">
+  <meta name="theme-color" content="#292747">
+  <meta name="description" content="Pulso Operativo, demostración de analítica con datos ficticios para el portafolio de Juan José Vallejo.">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'none'; object-src 'none'; base-uri 'none'">
   <title>Pulso Operativo · Demo</title>
-  <link rel="stylesheet" href="./assets/styles.css">
+  <link rel="stylesheet" href="./assets/styles.css?v=2">
 </head>
 <body>
   <a class="skip-link" href="#contenido">Saltar al contenido</a>
-  <div class="app-shell">
-    <aside class="sidebar" id="sidebar" data-expanded="false">
-      <div class="sidebar-top">
-        <a class="brand" href="#resumen" aria-label="Pulso Operativo, resumen">
-          <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span>Pulso<span class="brand-secondary">Operativo</span></span>
-        </a>
-        <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="module-nav">Módulos</button>
-      </div>
-      <nav class="module-nav" id="module-nav" aria-label="Módulos de la demo"></nav>
-      <div class="sidebar-foot">
-        <a id="portfolio-return" href="http://localhost:41763/#proyectos" hidden>← Volver al portafolio</a>
-        <span>Demostración de Juan José Vallejo</span>
-      </div>
-    </aside>
-
-    <div class="workspace">
-      <header class="topbar">
-        <p class="breadcrumb">Panel operativo <span aria-hidden="true">/</span> <strong id="breadcrumb-current">Resumen</strong></p>
-        <div class="topbar-actions">
-          <a class="demo-badge" href="#origen"><span aria-hidden="true"></span>Datos ficticios</a>
-          <label class="profile-field" for="profile-select"><span>Perfil simulado</span>
-            <select id="profile-select">
-              <option value="general">General</option>
-              <option value="comercial">Comercial</option>
-              <option value="soporte">Soporte</option>
-            </select>
-          </label>
-        </div>
-      </header>
-
-      <main id="contenido" class="content" tabindex="-1">
-        <div class="page-heading">
-          <div>
-            <h1 id="page-title">Resumen operativo</h1>
-            <p id="page-description"></p>
-          </div>
-          <button class="button button-outline" id="export-view" type="button" hidden>↓ Exportar CSV</button>
-        </div>
-        <form class="filters-panel" id="scope-filters" aria-label="Filtros del panel" hidden>
-          <label class="field" id="period-field" for="period-filter">Período
-            <select id="period-filter" name="period">
-              <option value="7">7 días</option>
-              <option value="14">14 días</option>
-              <option value="30">Junio completo</option>
-            </select>
-          </label>
-          <label class="field" for="site-filter">Sede
-            <select id="site-filter" name="site"></select>
-          </label>
-          <label class="field" id="channel-field" for="channel-filter">Canal
-            <select id="channel-filter" name="channel"></select>
-          </label>
-          <button class="button button-quiet" id="reset-filters" type="button">Restablecer</button>
-          <p class="period-note" id="period-note"></p>
-        </form>
-        <div class="view" id="view"></div>
-        <p class="sr-only" id="announcer" aria-live="polite"></p>
-        <noscript><p class="empty-state">Activa JavaScript para consultar los datos de la demo.</p></noscript>
-      </main>
+  <button id="backdrop" class="backdrop" type="button" aria-label="Cerrar navegación" hidden></button>
+  <aside class="sidebar" id="sidebar" data-expanded="false">
+    <div class="sidebar-top">
+      <a class="brand" href="#resumen" aria-label="Pulso Operativo, inicio">
+        <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h4l2.8-6 4.1 12 2.4-6H22"/></svg></span>
+        <span><strong>Pulso Operativo</strong><small>Analítica · Demo</small></span>
+      </a>
     </div>
+    <nav id="module-nav" class="module-nav" aria-label="Módulos"></nav>
+    <div class="sidebar-foot"><a id="portfolio-return" href="http://localhost:41763/#proyectos" hidden>← Volver al portafolio</a></div>
+  </aside>
+  <div class="workspace">
+    <header class="topbar">
+      <div class="breadcrumbs">
+        <button id="menu-button" class="icon-button" type="button" aria-expanded="false" aria-controls="sidebar" aria-label="Abrir navegación"></button>
+        <span id="breadcrumb-group" class="breadcrumb-group">Pulso</span><span class="crumb-slash" aria-hidden="true">/</span>
+        <span id="breadcrumb-current">Inicio</span>
+      </div>
+      <div class="topbar-actions">
+        <a id="help-link" class="help-link" href="#ayuda"></a>
+        <a class="demo-badge" id="demo-badge" href="#origen"><i aria-hidden="true"></i>Datos ficticios</a>
+        <details class="top-menu" id="notifications">
+          <summary class="icon-button" aria-label="Notificaciones"></summary>
+          <div class="popover" id="notification-list"></div>
+        </details>
+        <details class="top-menu" id="profile-menu">
+          <summary class="avatar" aria-label="Menú de usuario">PO</summary>
+          <div class="popover">
+            <h2>Sesión de demo</h2>
+            <label class="field">Perfil simulado<select id="profile-select">
+              <option value="general">General</option><option value="comercial">Comercial</option><option value="soporte">Soporte</option>
+            </select></label>
+            <p>El perfil cambia los módulos visibles.</p>
+            <a id="profile-origin" class="text-button" href="#origen">Sobre la demo</a>
+          </div>
+        </details>
+      </div>
+    </header>
+    <main id="contenido" class="content" tabindex="-1">
+      <div id="view" class="view"></div>
+      <p class="sr-only" id="announcer" aria-live="polite"></p>
+      <noscript><p>Activa JavaScript para consultar los datos de la demo.</p></noscript>
+    </main>
   </div>
-
-  <dialog class="ticket-dialog" id="ticket-dialog" aria-labelledby="ticket-title">
+  <dialog id="ticket-dialog" class="ticket-dialog" aria-labelledby="ticket-title">
     <div class="dialog-heading">
-      <div><p class="dialog-id" id="ticket-id"></p><h2 id="ticket-title"></h2></div>
-      <form method="dialog"><button type="submit" class="button button-outline" aria-label="Cerrar solicitud" autofocus>Cerrar</button></form>
+      <div><p class="eyebrow" id="ticket-id"></p><h2 id="ticket-title"></h2></div>
+      <form method="dialog"><button class="button" type="submit" autofocus>Cerrar</button></form>
     </div>
     <div id="ticket-content"></div>
   </dialog>
-  <script type="module" src="./assets/app.js"></script>
+  <script type="module" src="./assets/app.js?v=2"></script>
 </body>
 </html>
